@@ -56,6 +56,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +67,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Body()
+                    AppNavigation()
                 }
             }
         }
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Body() {
+fun AppNavigation() {
     var nameString by remember { mutableStateOf("") }
     var surnameString by remember { mutableStateOf( "") }
     var passwordString by remember { mutableStateOf("") }
@@ -276,6 +277,6 @@ fun SecureTextField(
 @Composable
 fun DefaultPreview() {
     MyApplicationTheme {
-        Body()
+        AppNavigation()
     }
 }
