@@ -20,14 +20,11 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
@@ -54,9 +51,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.navigation.AppNavigation
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +66,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    //Text("test")
                     AppNavigation()
                 }
             }
@@ -74,9 +74,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation() {
+fun AppNavigationOld() {
     var nameString by remember { mutableStateOf("") }
     var surnameString by remember { mutableStateOf( "") }
     var passwordString by remember { mutableStateOf("") }
@@ -88,12 +87,12 @@ fun AppNavigation() {
         .padding(12.dp)
         .fillMaxWidth()
     val manager = LocalFocusManager.current
-    val compotes = listOf<String>("Pomme", "Banane", "Poire", "Abricot", "Peche")
+    val compotes = listOf("Pomme", "Banane", "Poire", "Abricot", "Peche")
 
     Surface(modifier = Modifier.fillMaxSize(), onClick = { manager.clearFocus()}) {
         Column {
             NameTextField(nameString = nameString, onNameChanged = {nameString = it}, modifier = modifier, manager = manager)
-            SecureTextField(password = passwordString, onChanged = { passwordString = it}, modifer = modifier, manager = manager)
+            SecureTextField(password = passwordString, onChanged = { passwordString = it}, modifier = modifier, manager = manager)
             SurnameTextField(surname = surnameString, onChanged = { surnameString = it}, modifier = modifier, manager = manager)
             KotlinToggle(checked = isKotlinCool, onChange = {isKotlinCool = it})
             Myslider(value = sliderValue, onChanged = {sliderValue = it}, onFinished = {println("Nous avons fini")})
@@ -138,12 +137,12 @@ fun Radios(index: Int, list: List<String>, modifier: Modifier, onClick: (Int) ->
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly) {
         for (int in list.indices) {
-            Column() {
+            Column {
                 RadioButton(
                     selected = index == int,
                     onClick = { onClick(int) }
                 )
-                Text(text = list.get(int))
+                Text(text = list[int])
             }
 
         }
@@ -167,7 +166,7 @@ fun Myslider(value: Float, onChanged: (Float) -> Unit, onFinished: () -> Unit) {
 
 @Composable
 fun KotlinToggle(checked: Boolean, onChange: (Boolean) -> Unit) {
-    Row() {
+    Row {
         Text(text = if (checked) "Kotlin est Cool" else "Je préfère Dart")
         Switch(
             checked = checked,
@@ -186,7 +185,7 @@ fun KotlinToggle(checked: Boolean, onChange: (Boolean) -> Unit) {
 @Composable
 fun SurnameTextField(surname: String, onChanged: (String) -> Unit, modifier: Modifier, manager: FocusManager) {
     val error = (surname == "" || surname.length < 3)
-    Column() {
+    Column {
         OutlinedTextField(
             value = surname,
             onValueChange = onChanged,
@@ -244,14 +243,14 @@ fun NameTextField(nameString: String, onNameChanged: (String) -> Unit, modifier:
 fun SecureTextField(
     password: String,
     onChanged: (String) -> Unit,
-    modifer: Modifier,
+    modifier: Modifier,
     manager: FocusManager
 ) {
     var isSecure by remember { mutableStateOf(true) }
     OutlinedTextField(
         value = password,
         onValueChange = onChanged,
-        modifier = modifer,
+        modifier = modifier,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Next
         ),

@@ -1,5 +1,6 @@
 package com.example.myapplication.shared.presentation.base
 
+import com.example.myapplication.core.utils.Result
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
